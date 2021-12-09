@@ -40,12 +40,13 @@ maxradius=85
 minmagnitude=6.5
 maxmagnitude=10
 
+
+# remove_response option is not possible for eida-routing ()
 remove_response=False
 #remove_response=True
 
 # dataclient is used to request data (only relevant if eida_routing=False)
-#dataclient="BGR"
-dataclient="LMU"  
+dataclient="GFZ"
 
 # other possible dataclients:
 #
@@ -76,7 +77,7 @@ dataclient="LMU"
 
 
 ######################################################
-#  II. options on earthquake catalog 
+#  II. options on the GLOBALE earthquake catalog 
 
 
 # this global catalogue has to be generated once with 
@@ -87,6 +88,10 @@ dataclient="LMU"
 
 global_earthquake_calalogue="GLOBAL_EQ_CAT_1980_112021_MGT55.txt"
 global_t1_str="1980-01-01"
+
+# global_t2_str can be either "NOW" or "YYYY-MM-DD"-format
+global_t2_str="NOW"
+
 global_minmagnitude=5.5
 
 eventclient="USGS"

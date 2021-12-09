@@ -36,10 +36,17 @@ except:
 
 from fetch_parameter import global_t1_str,global_minmagnitude,eventclient,global_earthquake_calalogue
 
-t1=UTCDateTime("1980-01-01")
 t1=UTCDateTime(global_t1_str)
+
 now=UTCDateTime()
-t2=now
+if "global_t2_str" in locals():
+    if global_t2_str.upper()=="NOW" or global_t2_str=="":
+        t2=now
+    else:
+        t2=UTCDateTime(global_t2_str)
+else:
+    t2=now
+
 
 minmagnitude=global_minmagnitude
 maxmagnitude=10.0

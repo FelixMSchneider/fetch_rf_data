@@ -2,8 +2,9 @@
 0)
    parameters have to be changed in file fetch_parameter.py
 
-   network
+   network=NETCODE
    DATAPATH: PATH where downloaded data are stored
+
    eida_routing=True/False
 
        if eida_routing=True 
@@ -16,9 +17,6 @@
            client = Client(dataclient) is used
            In this case dataclient has to be provieded. The list of possible provides are listed in fetch_parameter.py
 
-
-
-   
 
 
 1) GENERATE GLOBAL EARTHQUAKE CATALOGUE
@@ -34,19 +32,24 @@
 
    If this catalogue is used, step 1) can be skipped.
 
+
 2) GENERATE STATIONLIST FOR NETWORK
 
    a stationlist has to be generated with
 
    python get_stationlist.py
 
-   the resulting stationlist.txt can edited (e.g. delete stations) if you wish
+
+   the resulting stationlist is stored in DATAPATH/NETCODE/stationlist_NETCODE.txt
+   and can edited (e.g. delete stations) if you wish
 
 
-3) GENERATE CATALOGUE:
+
+3) GENERATE INDIVIDUAL EVENT CATALOGUES:
 
     
      EITHER:
+
       a single earthquake cataologue for the network cat be generated with
     
          python generate_catalogue.py CLAT CLON  (where CLAT CLON are the central lat lon of the network)
@@ -60,11 +63,11 @@
     
      OR:
     
-      an earthquake cataologue is generated for each station individually
+      an earthquake cataologue is generated for each station individually (recommended for large networks)
     
          python generate_catalogue.py stationlist.txt
-    
-       Individual catalogues are saved in folder DATAPATH/NETWORK/NETCODE.STATIONNAME/SRF-EVENTS.txt
+
+       Individual catalogues are saved in folder DATAPATH/NETCODE/NETCODE.STATIONNAME/SRF-EVENTS.txt
         
        you can edit these files individually (delete lines) if you wish
 
@@ -81,7 +84,7 @@
 
   bash get_data_many_stations.sh
 
-  -> data will be downloaded for all stations in "stationlist.txt"
+  -> data will be downloaded for all stations in "DATAPATH/NETCODE/stationlist_NETCODE.txt"
 
    if a catalogue exists in the directory NETCODE.STATIONNAME/SRF-EVENTS.txt the script will use this one, otherwise
    the catalogue in ./SRF-EVENTS.txt is used.
