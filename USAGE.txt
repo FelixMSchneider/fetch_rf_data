@@ -2,7 +2,7 @@
 0)
    parameters have to be changed in file fetch_parameter.py
 
-   DATAPATH
+   DATAPATH: PATH where downloaded data are stored
    
 
 
