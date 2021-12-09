@@ -2,6 +2,7 @@
 0)
    parameters have to be changed in file fetch_parameter.py
 
+   network
    DATAPATH: PATH where downloaded data are stored
    eida_routing=True/False
 
