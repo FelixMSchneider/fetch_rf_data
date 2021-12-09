@@ -2,7 +2,21 @@
 0)
    parameters have to be changed in file fetch_parameter.py
 
-   DATAPATH
+   DATAPATH: PATH where downloaded data are stored
+   eida_routing=True/False
+
+       if eida_routing=True 
+           client = RoutingClient("eida-routing", credentials={'EIDA_TOKEN': EIDATOKENPATH}) is used.
+           this option is needed when you want to download restricted data, which is accessable with ein EIDA_TOKEN
+
+           EIDATOKENPATH="/home/felix/eidatoken" has to be provided in this case.
+
+       if eida_routing=False
+           client = Client(dataclient) is used
+           In this case dataclient has to be provieded. The list of possible provides are listed in fetch_parameter.py
+
+
+
    
 
 
