@@ -1,0 +1,80 @@
+
+0)
+   parameters have to be changed in file fetch_parameter.py
+
+   DATAPATH
+   
+
+
+1) GENERATE GLOBAL EARTHQUAKE CATALOGUE
+
+   A global earthquake catalog has to be downloaded. This can be done with:
+
+    python generate_global_catalogue.py
+
+    (only 1 time needed)
+
+   a global catalogue is already provided with the scripts, ranging from 
+   1980 to Nov_2021: GLOBAL_EQ_CAT_1980_112021_MGT55.txt
+
+   If this catalogue is used, step 1) can be skipped.
+
+2) GENERATE STATIONLIST FOR NETWORK
+
+   a stationlist has to be generated with
+
+   python get_stationlist.py
+
+   the resulting stationlist.txt can edited (e.g. delete stations) if you wish
+
+
+3) GENERATE CATALOGUE:
+
+    
+     EITHER:
+      a single earthquake cataologue for the network cat be generated with
+    
+         python generate_catalogue.py CLAT CLON  (where CLAT CLON are the central lat lon of the network)
+    
+         python generate_catalogue.py STATIONNAME (where STATIONNAME should be a central station)
+    
+      in both cases the catalogue is saved in DATAPATH/NETWORK/SRF-EVENTS.txt
+    
+      you can edit this file (delete lines) if you wish
+    
+    
+     OR:
+    
+      an earthquake cataologue is generated for each station individually
+    
+         python generate_catalogue.py stationlist.txt
+    
+       Individual catalogues are saved in folder DATAPATH/NETWORK/NETCODE.STATIONNAME/SRF-EVENTS.txt
+        
+       you can edit these files individually (delete lines) if you wish
+
+
+4) GET DATA 
+
+  EITHER:
+
+  python get_data_single_station_bulk.py STATIONNAME
+
+  -> data will be downloaded for tha single station and stored in DATAPATH
+
+  OR: 
+
+  bash get_data_many_stations.sh
+
+  -> data will be downloaded for all stations in "stationlist.txt"
+
+   if a catalogue exists in the directory NETCODE.STATIONNAME/SRF-EVENTS.txt the script will use this one, otherwise
+   the catalogue in ./SRF-EVENTS.txt is used.
+
+
+    
+  
+
+
+
+
