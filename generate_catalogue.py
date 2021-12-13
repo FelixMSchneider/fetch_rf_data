@@ -72,7 +72,7 @@ if len(sys.argv) == 2:
         f=open(slist,"r")
 
         stations=f.readlines()
-        stations=[stat.split()[0] for stat in stations]
+        stations=[stat.split()[0] for stat in stations if len(stat.split()) > 0 ]
     else:
         stations=[station]    
 

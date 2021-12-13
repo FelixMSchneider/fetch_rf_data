@@ -34,13 +34,13 @@ if eida_routing:
     from obspy.clients.fdsn import RoutingClient
     from obspy.clients.fdsn.header import FDSNNoDataException
     client = RoutingClient("eida-routing", credentials={'EIDA_TOKEN': EIDATOKENPATH})
+    import warnings
+    warnings.filterwarnings('error')
+    warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
 
 
     try:
-        import warnings
-        warnings.filterwarnings('error')
         inventory=client.get_stations(network=network, station="*", starttime=t1, endtime=t2)
-        warnings.filterwarnings("default")
     except FDSNNoDataException:
         warnings.filterwarnings("default")
         print("")
@@ -55,7 +55,7 @@ if eida_routing:
         
     except Exception as e:
 
-        warnings.filterwarnings("ignore")
+        #warnings.filterwarnings("ignore")
 
         if "Error 400" in e.args[0]:
             print("")

@@ -78,7 +78,7 @@ if eida_routing:
 
     import warnings
     warnings.filterwarnings('error')
-
+    warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
     try:
         inventory=client.get_stations(network=network, station=station, starttime=t1, endtime=t2)
     except FDSNNoDataException:
