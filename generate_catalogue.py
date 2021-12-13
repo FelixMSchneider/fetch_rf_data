@@ -11,7 +11,7 @@ from __future__ import print_function
 #
 
 from get_catalogue_functions import *
-import sys,os
+import sys,os, os.path
 
 SRCPATH=os.path.dirname(os.path.realpath(__file__))
 
@@ -23,9 +23,7 @@ except:
     DATAPATH=SRCPATH
 
 from fetch_parameter import network
-DATAPATH=DATAPATH+"/"+network
-
-
+DATAPATH=os.path.abspath(DATAPATH+"/"+network)
 
 
 if len(sys.argv)<2:
@@ -53,7 +51,26 @@ if len(sys.argv) == 2:
 
     if station=="stationlist.txt":
         manystations=True
-        f=open(DATAPATH+"/stationlist_"+network+".txt","r")
+        slist=DATAPATH+"/stationlist_"+network+".txt"
+        import os.path
+
+        slist=os.path.abspath(slist)
+
+        if not os.path.isfile(slist):
+            print("") 
+            print("    file ", slist ," not found") 
+            print("    first run: ")
+            print("    python get_stationlist.py")
+            print("    to generate the stationlist file")
+            print("")
+            sys.exit()
+          
+        print("")
+        print("generate individual catalogues for all stations in ", slist)
+        print("")
+
+        f=open(slist,"r")
+
         stations=f.readlines()
         stations=[stat.split()[0] for stat in stations]
     else:

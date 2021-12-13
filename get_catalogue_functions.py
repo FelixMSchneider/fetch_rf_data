@@ -40,21 +40,47 @@ def get_station_lat_lon(station):
     if eida_routing:
 
         from obspy.clients.fdsn import RoutingClient
+        from obspy.clients.fdsn.header import FDSNNoDataException
         client = RoutingClient("eida-routing", credentials={'EIDA_TOKEN': EIDATOKENPATH})
 
         import warnings
         warnings.filterwarnings('error')
+
         try:
             inventory=client.get_stations(network=network, station=station, starttime=t1, endtime=t2)
-        except ResourceWarning:
-            pass
-        except:
+        except FDSNNoDataException:
+            warnings.filterwarnings("default")
             print("")
-            print("EIDA-token " + EIDATOKENPATH + " not valid or not found")
+            print("   No Data available.")
+            print("   Check Input variables")
+            print("   station: ", station )
+            print("   network: ", network) 
+            print("   t1: ", str(t1))
+            print("   t2: ", str(t2))
             print("")
             sys.exit()
-        warnings.filterwarnings('default')
+            
+        except Exception as e:
 
+            warnings.filterwarnings("ignore")
+
+            if "Error 400" in e.args[0]:
+                print("")
+                print("   EIDA-token " + EIDATOKENPATH + " not valid!")
+                print("")
+                sys.exit()
+            if "EIDA token does not seem to be a valid PGP message" in e.args[0]:
+                print("")
+                print("   eidatoken not found")
+                print("   please check if the eidatoken file exists: ", EIDATOKENPATH)
+                print("")
+                sys.exit()
+            else:
+                print(e) 
+                pass
+        
+        warnings.filterwarnings("default")
+        
     else:
         client = Client(dataclient)
         inventory=client.get_stations(network=network, station=station, starttime=t1, endtime=t2)

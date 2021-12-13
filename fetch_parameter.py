@@ -21,7 +21,7 @@ network="Z3"
 DATAPATH="/home/felix/RFdata/"
 
 eida_routing=True
-EIDATOKENPATH="/home/felix/eidatoken_RK"
+EIDATOKENPATH="/home/felix/eidatoken_RK3"
 
 # [t1_str,t2_str]: time intervall of event request
 # format: "YYYY-MM-DD"
