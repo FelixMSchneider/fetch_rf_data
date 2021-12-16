@@ -18,9 +18,11 @@
 
 network="Z3"
 
-DATAPATH="/home/felix/RFdata/"
+DATAPATH="/home/felix/RFdata_V2/"
 
-eida_routing=True
+use_routing_client=False
+
+pass_eidatoken=True
 EIDATOKENPATH="/home/felix/eidatoken_RK3"
 
 # [t1_str,t2_str]: time intervall of event request
@@ -41,12 +43,14 @@ minmagnitude=6.5
 maxmagnitude=10
 
 
-# remove_response option is not possible for eida-routing ()
+# remove_response option is not possible for use_routing_client=True ()
 remove_response=False
 #remove_response=True
 
-# dataclient is used to request data (only relevant if eida_routing=False)
-dataclient="GFZ"
+# dataclient is used to request data (only relevant if use_routing_client=False
+dataclient="LMU"
+#dataclient="http://erde.geophysik.uni-muenchen.de"
+#dataclient="http://webservices.ingv.it"
 
 # other possible dataclients:
 #
