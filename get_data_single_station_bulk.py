@@ -66,7 +66,7 @@ station=sys.argv[1]
 # if a Eida token has to be passed to access restricted data:
 #
 
-if eida_routing:
+if use_routing_client:
     print("")
     print("search for network "+ network +" and station "+station+" using RoutingClient with Eidatoken " + EIDATOKENPATH)
     print("")
@@ -76,43 +76,6 @@ if eida_routing:
     from obspy.clients.fdsn.header import FDSNNoDataException
     client = RoutingClient("eida-routing", credentials={'EIDA_TOKEN': EIDATOKENPATH})
 
-    import warnings
-    warnings.filterwarnings('error')
-    warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
-    try:
-        inventory=client.get_stations(network=network, station=station, starttime=t1, endtime=t2)
-    except FDSNNoDataException:
-        warnings.filterwarnings("default")
-        print("")
-        print("   No Data available.")
-        print("   Check Input variables")
-        print("   station: ", station )
-        print("   network: ", network) 
-        print("   t1: ", str(t1))
-        print("   t2: ", str(t2))
-        print("")
-        sys.exit()
-        
-    except Exception as e:
-
-        warnings.filterwarnings("ignore")
-
-        if "Error 400" in e.args[0]:
-            print("")
-            print("   EIDA-token " + EIDATOKENPATH + " not valid!")
-            print("")
-            sys.exit()
-        if "EIDA token does not seem to be a valid PGP message" in e.args[0]:
-            print("")
-            print("   eidatoken not found")
-            print("   please check if the eidatoken file exists: ", EIDATOKENPATH)
-            print("")
-            sys.exit()
-        else:
-            print(e) 
-            pass
-    
-    warnings.filterwarnings("default")
 
 else:
     print("")
@@ -121,8 +84,68 @@ else:
 
     client = Client(dataclient)
 
-    inventory=client.get_stations(network=network, station=station, starttime=t1, endtime=t2)
+    if pass_eidatoken:
+        try:
+            client.set_eida_token(EIDATOKENPATH, validate=True)
+        except Exception as e:
+    
+            if "Error 400" in e.args[0]:
+                print("")
+                print("   EIDA-token " + EIDATOKENPATH + " not valid!")
+                print("")
+                sys.exit()
+            if "EIDA token does not seem to be a valid PGP message" in e.args[0]:
+                print("")
+                print("   eidatoken not found")
+                print("   please check if the eidatoken file exists: ", EIDATOKENPATH)
+                print("")
+                sys.exit()
+            else:
+                print(e)
+                pass
+        
 
+
+import warnings
+warnings.filterwarnings('error')
+warnings.filterwarnings(action="ignore", message="unclosed", category=ResourceWarning)
+
+
+
+try:
+    inventory=client.get_stations(network=network, station=station, starttime=t1, endtime=t2)
+except FDSNNoDataException:
+    warnings.filterwarnings("default")
+    print("")
+    print("   No Data available.")
+    print("   Check Input variables")
+    print("   station: ", station )
+    print("   network: ", network) 
+    print("   t1: ", str(t1))
+    print("   t2: ", str(t2))
+    print("")
+    sys.exit()
+    
+except Exception as e:
+
+    warnings.filterwarnings("ignore")
+
+    if "Error 400" in e.args[0]:
+        print("")
+        print("   EIDA-token " + EIDATOKENPATH + " not valid!")
+        print("")
+        sys.exit()
+    if "EIDA token does not seem to be a valid PGP message" in e.args[0]:
+        print("")
+        print("   eidatoken not found")
+        print("   please check if the eidatoken file exists: ", EIDATOKENPATH)
+        print("")
+        sys.exit()
+    else:
+        print(e) 
+        pass
+
+warnings.filterwarnings("default")
 
 net=inventory.networks[0]
 stat=net.stations[0]
@@ -278,7 +301,7 @@ if not os.path.isfile(directory+"/"+station+".MSEED"):
     bulk=[(bulk[i][0], bulk[i][1], bulk[i][2], request_channel+"?", bulk[i][4], bulk[i][5]) for i in range(len(bulk))]
     
 
-    if not eida_routing:
+    if not use_routing_client:
         try: 
             st=client.get_waveforms_bulk(bulk, attach_response=remove_response)
         except obspy.clients.fdsn.header.FDSNNoDataException:

@@ -101,5 +101,7 @@ for station in stations:
 
 
     print("clat, clon = ", slat, slon)
+
+    os.system("mkdir -p "+ outfolder)
     get_catalogue(slat, slon,  outfolder=outfolder, gcat=gcat)
     

@@ -29,7 +29,7 @@ t1=UTCDateTime(t1_str)
 t2=UTCDateTime(t2_str)
 
 
-if eida_routing:
+if use_routing_client:
 
     from obspy.clients.fdsn import RoutingClient
     from obspy.clients.fdsn.header import FDSNNoDataException
