@@ -397,7 +397,7 @@ for evno in range(len(cat)):
     try:
         sti.merge(fill_value=0)
     except:
-        print("warning: merge not possible ---> skip event", evno, network, station, channel+"?", start,stop, file=logout)
+        print("warning: merge not possible ---> skip event", evno, network, station, start,stop, file=logout)
         print("warning: merge not possible ---> skip event", evno)
       
         continue
@@ -481,8 +481,8 @@ for evno in range(len(cat)):
         catout.close()
 
     except:
-        print("some conversion error for event ",evno, network, station, channel+"?", start,stop, file=logout) 
-        print("some conversion error for event ",evno, network, station, channel+"?", start,stop) 
+        print("some conversion error for event ",evno, network, station, start,stop, file=logout) 
+        print("some conversion error for event ",evno, network, station, start,stop) 
         continue
 
 

@@ -18,7 +18,7 @@
 
 network="Z3"
 
-DATAPATH="/home/felix/RFdata_V2/"
+DATAPATH="/home/felix/RFdata_V3/"
 
 use_routing_client=False
 
@@ -48,7 +48,8 @@ remove_response=False
 #remove_response=True
 
 # dataclient is used to request data (only relevant if use_routing_client=False
-dataclient="LMU"
+#dataclient="LMU"
+dataclient="ORFEUS"
 #dataclient="http://erde.geophysik.uni-muenchen.de"
 #dataclient="http://webservices.ingv.it"
 
