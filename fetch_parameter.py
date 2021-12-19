@@ -18,7 +18,7 @@
 
 network="Z3"
 
-DATAPATH="/home/felix/RFdata_V3/"
+DATAPATH="/home/felix/RFdata_ODC/"
 
 use_routing_client=False
 
@@ -39,7 +39,9 @@ time_after_onset  = 300
 minradius=55
 maxradius=85
 
-minmagnitude=6.5
+#minmagnitude=6.5
+#maxmagnitude=7
+minmagnitude=5.5
 maxmagnitude=10
 
 
@@ -48,8 +50,8 @@ remove_response=False
 #remove_response=True
 
 # dataclient is used to request data (only relevant if use_routing_client=False
-#dataclient="LMU"
-dataclient="ORFEUS"
+dataclient="ODC"
+#dataclient="ORFEUS"
 #dataclient="http://erde.geophysik.uni-muenchen.de"
 #dataclient="http://webservices.ingv.it"
 
@@ -92,7 +94,8 @@ dataclient="ORFEUS"
 #
 
 global_earthquake_calalogue="GLOBAL_EQ_CAT_1980_112021_MGT55.txt"
-global_t1_str="1980-01-01"
+#global_earthquake_calalogue="GLOBAL_EQ_CAT_2015_112021_MGT55.txt"
+global_t1_str="2015-01-01"
 
 # global_t2_str can be either "NOW" or "YYYY-MM-DD"-format
 global_t2_str="NOW"

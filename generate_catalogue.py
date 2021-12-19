@@ -87,6 +87,7 @@ gcat=load_global_cat()
 
 for station in stations:
     if usestation:
+        print("get station informations...")
         slat,slon=get_station_lat_lon(station)
         print("use station coordinates of station "+station+" as reference")
 

@@ -22,6 +22,7 @@ try:
     from obspy.clients.fdsn.client import Client
     from obspy import UTCDateTime
     from obspy.geodetics import gps2dist_azimuth
+    from obspy.clients.fdsn.header import FDSNNoDataException
 except:
     print("obspy has to be installed")
     import sys
@@ -73,7 +74,6 @@ if use_routing_client:
 
 
     from obspy.clients.fdsn import RoutingClient
-    from obspy.clients.fdsn.header import FDSNNoDataException
     client = RoutingClient("eida-routing", credentials={'EIDA_TOKEN': EIDATOKENPATH})
 
 
