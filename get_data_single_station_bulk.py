@@ -268,11 +268,11 @@ if not os.path.isfile(directory+"/"+station+".MSEED"):
     
     
         bulk.append((network, station, "*", "?H?", start,stop))
-    
-    
+   
     print("")
     print("Check inventory for available channels for station "+ station)
     print("")
+
 
 
     inv=client.get_stations_bulk(bulk, level="channel")
@@ -301,27 +301,63 @@ if not os.path.isfile(directory+"/"+station+".MSEED"):
     bulk=[(bulk[i][0], bulk[i][1], bulk[i][2], request_channel+"?", bulk[i][4], bulk[i][5]) for i in range(len(bulk))]
     
 
-    if not use_routing_client:
-        try: 
-            st=client.get_waveforms_bulk(bulk, attach_response=remove_response)
-        except obspy.clients.fdsn.header.FDSNNoDataException:
-            print("No data available for this request!")
-            sys.exit()
-    else:
-        try:
-            st=client.get_waveforms_bulk(bulk)
-        except ValueError:
-            print("EIDA token not present or valid?")
-            sys.exit()
-        except obspy.clients.fdsn.header.FDSNNoDataException:
-            print("No data available for this request!")
-            sys.exit()
+
+
+
+
+    for line in bulk:
+        print(line[0], line[1], line[2], line[3], line[4], line[5], file=logout)    
+#                  GR     GRA1      *     BH?    2015-11-13T21:09:10.000000Z 2015-11-13T21:19:10.000000Z
+    if use_fdsnws_fetch:
         if remove_response:
-            print("warning: attachment of instrument response is not supported by RoutingClient")
+            print("warning: attachment of instrument response is not supported by fdsnws_fetch")
             print("set remove_reponse to False")
             remove_response=False
+
+        print("create acrlinke file from bulk")
+
+        arclink_file=directory+"/"+"arclink_req_"+network+"_"+station
+
+        af=open(arclink_file, "w")
+        for line in bulk:
+            print(str(line[4].year)+","+str(line[4].month)+","+str(line[4].day)+","+str(line[4].hour)+","+str(line[4].minute)+","+str(line[4].second)+" "+ \
+                  str(line[5].year)+","+str(line[5].month)+","+str(line[5].day)+","+str(line[5].hour)+","+str(line[5].minute)+","+str(line[5].second)+" "+ \
+                  line[0]+" "+line[1]+" "+ line[3], file=af)
+        af.close()
+
+        print("send fdsnws_fetch request")
+
+
+        if pass_eidatoken:
+            os.system("fdsnws_fetch -f "+ arclink_file + " -a " + EIDATOKENPATH + " -o "+ directory+"/"+station+".MSEED")
+        else:
+            os.system("fdsnws_fetch -f "+ arclink_file + " -o "+ directory+"/"+station+".MSEED")
+
+        st=obspy.read(directory+"/"+station+".MSEED")
+        
+    else: 
     
-    st.write(directory+"/"+station+".MSEED", format="MSEED")
+        if not use_routing_client:
+            try: 
+                st=client.get_waveforms_bulk(bulk, attach_response=remove_response)
+            except obspy.clients.fdsn.header.FDSNNoDataException:
+                print("No data available for this request!")
+                sys.exit()
+        else:
+            try:
+                st=client.get_waveforms_bulk(bulk)
+            except ValueError:
+                print("EIDA token not present or valid?")
+                sys.exit()
+            except obspy.clients.fdsn.header.FDSNNoDataException:
+                print("No data available for this request!")
+                sys.exit()
+            if remove_response:
+                print("warning: attachment of instrument response is not supported by RoutingClient")
+                print("set remove_reponse to False")
+                remove_response=False
+        
+        st.write(directory+"/"+station+".MSEED", format="MSEED")
 else:
     st=obspy.read(directory+"/"+station+".MSEED")
         

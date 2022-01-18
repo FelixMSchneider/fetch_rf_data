@@ -16,13 +16,14 @@
 # usage: see: USAGE.txt
 
 
-network="Z3"
+network="GR"
 
-DATAPATH="/home/felix/RFdata_ODC/"
+DATAPATH="/home/felix/RFdata/"
 
+use_fdsnws_fetch=True
 use_routing_client=False
 
-pass_eidatoken=True
+pass_eidatoken=False
 EIDATOKENPATH="/home/felix/eidatoken_RK3"
 
 # [t1_str,t2_str]: time intervall of event request
@@ -41,7 +42,7 @@ maxradius=85
 
 #minmagnitude=6.5
 #maxmagnitude=7
-minmagnitude=5.5
+minmagnitude=6.5
 maxmagnitude=10
 
 
@@ -50,7 +51,9 @@ remove_response=False
 #remove_response=True
 
 # dataclient is used to request data (only relevant if use_routing_client=False
-dataclient="ODC"
+#dataclient="http://geoweb.zamg.ac.at"
+dataclient="BGR"
+#dataclient="ODC"
 #dataclient="ORFEUS"
 #dataclient="http://erde.geophysik.uni-muenchen.de"
 #dataclient="http://webservices.ingv.it"
