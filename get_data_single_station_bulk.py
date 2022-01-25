@@ -69,7 +69,7 @@ station=sys.argv[1]
 
 if use_routing_client:
     print("")
-    print("search for network "+ network +" and station "+station+" using RoutingClient with Eidatoken " + EIDATOKENPATH)
+    print("search for network "+ network +" and station "+station+" Metadata using RoutingClient with Eidatoken " + EIDATOKENPATH)
     print("")
 
 
@@ -78,7 +78,7 @@ if use_routing_client:
 
 else:
     print("")
-    print("search for network "+ network +" and station "+station+" in dataclient: " + dataclient)
+    print("search for network "+ network +" and station "+station+" Metadata in dataclient: " + dataclient)
     print("")
 
     client = Client(dataclient)
@@ -214,7 +214,53 @@ print("", file=logout)
 
 ############################################################
 
-if not os.path.isfile(directory+"/"+station+".MSEED"):
+ofile=directory+"/"+station+".MSEED"
+
+if os.path.isfile(ofile):
+    
+    print("") 
+    print("  "+ofile+" already exist.")
+
+    import select,time
+    
+    class TimeoutExpired(Exception):
+        pass
+    
+    def input_with_timeout(prompt, timeout):
+        sys.stdout.write(prompt)
+        sys.stdout.flush()
+        ready, _, _ = select.select([sys.stdin], [],[], timeout)
+        if ready:
+            return sys.stdin.readline().rstrip('\n') # expect stdin to be line-buffered
+        raise TimeoutExpired
+    
+    try:
+        print("") 
+        print("  You have 3 options to proceed:")
+        print("  delete existing file and proceed with data-request (Y)")
+        print("  Do not delete file and exit (N)")
+        print("  Use existing file to generate Qfile (U)")
+
+        print("")
+        print("  Default answer is Y, you have 10 seconds to reply")
+        print("")
+
+        prompt="  Please select: (Y/N/U): "
+        answer = input_with_timeout(prompt, 10)
+    except TimeoutExpired:
+        answer="delete"
+
+    if answer.upper()=="Y" or answer=="delete":
+        print("delete "+ofile)
+        os.system("rm "+ofile)
+    elif answer.upper()=="U":
+        print("use "+ ofile + " to generate QFILE") 
+    else:
+        print("do nothing")
+        input("...exit")
+        sys.exit()
+
+if not os.path.isfile(ofile):
 
     ###### get event data for station ############################
     print("")

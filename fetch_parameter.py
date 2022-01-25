@@ -21,7 +21,7 @@ network="Z3"
 DATAPATH="/home/felix/RFdata/"
 
 use_fdsnws_fetch=True
-use_routing_client=False
+use_routing_client=True
 
 pass_eidatoken=True
 EIDATOKENPATH="/home/felix/eidatoken_RK4"
