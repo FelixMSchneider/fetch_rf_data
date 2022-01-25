@@ -76,7 +76,6 @@ if use_routing_client:
     from obspy.clients.fdsn import RoutingClient
     client = RoutingClient("eida-routing", credentials={'EIDA_TOKEN': EIDATOKENPATH})
 
-
 else:
     print("")
     print("search for network "+ network +" and station "+station+" in dataclient: " + dataclient)
@@ -281,7 +280,6 @@ if not os.path.isfile(directory+"/"+station+".MSEED"):
     HH_channels=[channel for channel in [chan.split(".")[-1] for chan in inv.get_contents()["channels"]] if "HH" in channel]
     BH_channels=[channel for channel in [chan.split(".")[-1] for chan in inv.get_contents()["channels"]] if "BH" in channel]
     
-    
     print("")
     
     if len(BH_channels)>= 3: 
@@ -294,20 +292,14 @@ if not os.path.isfile(directory+"/"+station+".MSEED"):
         print("    no HH or BH channels available for station "+ station)
         sys.exit()
     
-    print("")
-    print("send bulk request to Client")
-    print("")
-    
     bulk=[(bulk[i][0], bulk[i][1], bulk[i][2], request_channel+"?", bulk[i][4], bulk[i][5]) for i in range(len(bulk))]
-    
-
-
-
-
 
     for line in bulk:
         print(line[0], line[1], line[2], line[3], line[4], line[5], file=logout)    
 #                  GR     GRA1      *     BH?    2015-11-13T21:09:10.000000Z 2015-11-13T21:19:10.000000Z
+
+
+
     if use_fdsnws_fetch:
         if remove_response:
             print("warning: attachment of instrument response is not supported by fdsnws_fetch")
@@ -336,6 +328,9 @@ if not os.path.isfile(directory+"/"+station+".MSEED"):
         st=obspy.read(directory+"/"+station+".MSEED")
         
     else: 
+        print("")
+        print("send bulk request to Client")
+        print("")
     
         if not use_routing_client:
             try: 

@@ -16,15 +16,15 @@
 # usage: see: USAGE.txt
 
 
-network="GR"
+network="Z3"
 
 DATAPATH="/home/felix/RFdata/"
 
 use_fdsnws_fetch=True
 use_routing_client=False
 
-pass_eidatoken=False
-EIDATOKENPATH="/home/felix/eidatoken_RK3"
+pass_eidatoken=True
+EIDATOKENPATH="/home/felix/eidatoken_RK4"
 
 # [t1_str,t2_str]: time intervall of event request
 # format: "YYYY-MM-DD"
@@ -52,9 +52,9 @@ remove_response=False
 
 # dataclient is used to request data (only relevant if use_routing_client=False
 #dataclient="http://geoweb.zamg.ac.at"
-dataclient="BGR"
+#dataclient="BGR"
 #dataclient="ODC"
-#dataclient="ORFEUS"
+dataclient="ORFEUS"
 #dataclient="http://erde.geophysik.uni-muenchen.de"
 #dataclient="http://webservices.ingv.it"
 
